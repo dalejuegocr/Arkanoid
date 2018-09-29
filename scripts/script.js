@@ -35,6 +35,11 @@ for(c=0; c<brickColumnCount; c++){
     }
 }
 
+//Sonidos
+var collisionSound = new Audio('sound/collision.mp3');
+var winMusic = new Audio('sound/win.mp3');
+var lossMusic = new Audio('sound/loss.mp3');
+
 alert("Mueve la paleta con las flechas\nPress \"Enter\" to start");
 
 document.addEventListener('keydown', keyDownHandler, false);
@@ -66,10 +71,12 @@ function collisionDetection(){
             var b = bricks[c][r];
             if(b.status == 1){
                 if(x>b.x && x<b.x+brickWidth && y>b.y && y<b.y+brickHeight){
+                    collisionSound.play();
                 dy = -dy; // La pelota cambia la dirección
                 b.status -= 1; // El ladrillo pierde vida
                 score++;
                 if(score == brickColumnCount*brickRowCount){
+                    winMusic.play();
                     alert(" :D!");
                     window.location.replace("nivel2.html");
                 }
@@ -136,12 +143,15 @@ function draw() {
 
     // Rebotes
     if(y + dy < ballRadius) { // Detecta la colisión en el borde superior del canvas
+        collisionSound.play();
         dy = -dy; // La pelota cambia de direcciòn en "y"
         /*context.fillStyle = changeColor()"";*/
     }else if(y + dy > canvas.height-ballRadius){ // Detecta la colisión con la paleta
         if(x > paddleX && x < paddleX + paddleWidth){
+            collisionSound.play();
             dy = -dy;
         }else {
+            lossMusic.play();
             alert("GAME OVER D:");
             document.location.reload();
         }
@@ -149,6 +159,7 @@ function draw() {
 
     // Colisiones en los bordes laterales
     if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+        collisionSound.play();
         dx = -dx;
         /*context.fillStyle = changeColor()"";*/
     }

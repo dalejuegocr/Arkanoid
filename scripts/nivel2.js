@@ -37,6 +37,11 @@ for(c=0; c<brickColumnCount; c++){
     }
 }
 
+//Sonidos
+var collisionSound = new Audio('sound/collision.mp3');
+var winMusic = new Audio('sound/win.mp3');
+var lossMusic = new Audio('sound/loss.mp3');
+
 //bricks[3][1]='',bricks[3][2]= '';
 
 
